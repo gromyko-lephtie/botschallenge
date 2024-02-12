@@ -1,18 +1,22 @@
-// BotCollection.jsx
+
 // BotCollection.jsx
 import React, { useState, useEffect } from 'react';
 
-const BotCollection = ({ enlistBot }) => {
+const BotCollection = ({ enlistBot ,dischargeBot}) => {
   const [bots, setBots] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:3000/bots') 
       .then(response => response.json())
       .then(data => setBots(data));
-  }, []);
+  }, [bots]);
 
   const handleEnlist = (bot) => {
     enlistBot(bot);
+  };
+
+  const handleDischarge = (botId) => {
+    dischargeBot(botId);
   };
 
   return (
@@ -23,6 +27,7 @@ const BotCollection = ({ enlistBot }) => {
           <h3>{bot.name}</h3>
           <p>Class: {bot.bot_class}</p>
           <img src={bot.avatar_url} alt={bot.name} />
+          <button onClick={() => handleDischarge(bot.id)}>X</button>
         </div>
       ))}
     </div>
